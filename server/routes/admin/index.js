@@ -12,5 +12,14 @@ module.exports = app => {
     }
   })
 
+  router.get('/categories', async (req, res) => {
+    try {
+      const list = await Category.find().limit(10)
+      res.send(list)
+    } catch (error) {
+      res.send(error)
+    }
+  })
+
   app.use('/admin/api', router)
 }

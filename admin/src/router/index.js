@@ -14,6 +14,10 @@ const routes = [
       {
         path: 'categories/create',
         component: () => import('@/views/CategoryEdit')
+      },
+      {
+        path: 'categories/list',
+        component: () => import('@/views/CategoryList')
       }
     ]
   }
