@@ -16,6 +16,11 @@ const routes = [
         component: () => import('@/views/CategoryEdit')
       },
       {
+        path: 'categories/edit/:id',
+        component: () => import('@/views/CategoryEdit'),
+        props: true
+      },
+      {
         path: 'categories/list',
         component: () => import('@/views/CategoryList')
       }

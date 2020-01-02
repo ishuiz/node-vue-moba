@@ -1,7 +1,7 @@
 <template>
   <div class="catogory">
-    <h1>新建分类</h1>
-    <el-form label-width="120px" @submit.native.prevent="save">
+    <h1>{{id ? '编辑' : '新建'}}分类</h1>
+    <el-form label-width="120px" @submit.native.prevent="handleSave">
       <el-form-item label="名称">
         <el-input v-model="model.name"></el-input>
       </el-form-item>
@@ -15,6 +15,9 @@
 <script>
 export default {
   name: 'CategoryEdit',
+  props: {
+    id: String
+  },
   data () {
     return {
       model: {
@@ -22,17 +25,28 @@ export default {
       }
     }
   },
+  created () {
+    this.id && this.queryDetail()
+  },
   methods: {
-    async save () {
+    async handleSave () {
       if (!this.model.name) {
         return
       }
-      await this.$http.post('categories', this.model)
+      if (this.id) {
+        await this.$http.put(`categories/${this.id}`, this.model)
+      } else {
+        await this.$http.post('categories', this.model)
+      }
       this.$message({
         type: 'success',
         message: '保存成功'
       })
       this.$router.push('/categories/list')
+    },
+    async queryDetail () {
+      const res = await this.$http.get(`categories/${this.id}`)
+      this.model = res.data
     }
   }
 }
