@@ -23,7 +23,7 @@ module.exports = app => {
 
   router.get('/categories', async (req, res) => {
     try {
-      const list = await Category.find().limit(10)
+      const list = await Category.find().populate('parent').limit(10)
       res.send(list)
     } catch (error) {
       res.send(error)
