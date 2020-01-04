@@ -1,47 +1,52 @@
 module.exports = app => {
   const express = require('express')
-  const router = express.Router()
-  const Category = require('../../models/Category')
+  const router = express.Router({
+    mergeParams: true
+  })
 
-  router.post('/categories', async (req, res) => {
+  router.post('/', async (req, res) => {
     try {
-      const model = await Category.create(req.body)
+      const model = await req.Model.create(req.body)
       res.send(model)
     } catch (error) {
       res.send(error)
     }
   })
 
-  router.put('/categories/:id', async (req, res) => {
+  router.put('/:id', async (req, res) => {
     try {
-      const model = await Category.findByIdAndUpdate(req.params.id, req.body)
+      const model = await req.Model.findByIdAndUpdate(req.params.id, req.body)
       res.send(model)
     } catch (error) {
       res.send(error)
     }
   })
 
-  router.get('/categories', async (req, res) => {
+  router.get('/', async (req, res) => {
     try {
-      const list = await Category.find().populate('parent').limit(10)
+      const queryOptions = {}
+      if (req.Model.modelName === 'Category') {
+        queryOptions.populate = 'parent'
+      }
+      const list = await req.Model.find().setOptions(queryOptions).limit(10)
       res.send(list)
     } catch (error) {
       res.send(error)
     }
   })
 
-  router.get('/categories/:id', async (req, res) => {
+  router.get('/:id', async (req, res) => {
     try {
-      const data = await Category.findById(req.params.id)
+      const data = await req.Model.findById(req.params.id)
       res.send(data)
     } catch (error) {
       res.send(error)
     }
   })
 
-  router.delete('/categories/:id', async (req, res) => {
+  router.delete('/:id', async (req, res) => {
     try {
-      await Category.findByIdAndDelete(req.params.id)
+      await req.Model.findByIdAndDelete(req.params.id)
       res.send({
         success: true
       })
@@ -50,5 +55,9 @@ module.exports = app => {
     }
   })
 
-  app.use('/admin/api', router)
+  app.use('/admin/api/rest/:resource', (req, res, next) => {
+    const modelName = require('inflection').classify(req.params.resource)
+    req.Model = require(`../../models/${modelName}`)
+    next()
+  }, router)
 }

@@ -2,8 +2,16 @@
   <div class="catogory">
     <h1>分类列表</h1>
     <el-table :data="list">
-      <el-table-column prop="_id" label="ID" width="240"></el-table-column>
-      <el-table-column prop="parent.name" label="上级分类" width="240"></el-table-column>
+      <el-table-column
+        prop="_id"
+        label="ID"
+        width="240">
+      </el-table-column>
+      <el-table-column
+        prop="parent.name"
+        label="上级分类"
+        width="120">
+      </el-table-column>
       <el-table-column prop="name" label="分类名称"></el-table-column>
       <el-table-column
         fixed="right"
@@ -37,7 +45,7 @@ export default {
   },
   methods: {
     async queryList () {
-      const res = await this.$http.get('categories')
+      const res = await this.$http.get('rest/categories')
       this.list = res.data
     },
     handleClickEdit (row) {
@@ -58,7 +66,7 @@ export default {
       }).catch(() => {})
     },
     deleteCategory (id) {
-      return this.$http.delete(`categories/${id}`)
+      return this.$http.delete(`rest/categories/${id}`)
     }
   }
 }
