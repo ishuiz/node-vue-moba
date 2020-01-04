@@ -1,18 +1,18 @@
 <template>
-  <div class="item">
-    <h1>{{ id ? "编辑" : "新建" }}物品</h1>
+  <div class="hero">
+    <h1>{{ id ? "编辑" : "新建" }}英雄</h1>
     <el-form label-width="120px" @submit.native.prevent="handleSave">
       <el-form-item label="名称">
         <el-input v-model="model.name"></el-input>
       </el-form-item>
-      <el-form-item label="图标">
+      <el-form-item label="头像">
         <el-upload
           class="avatar-uploader"
           :action="$http.defaults.baseURL + '/upload'"
           :show-file-list="false"
           :on-success="handleUploadSuccess"
         >
-          <img v-if="model.icon" :src="model.icon" class="avatar" />
+          <img v-if="model.avatar" :src="model.avatar" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'ItemEdit',
+  name: 'HeroEdit',
   props: {
     id: String
   },
@@ -33,7 +33,7 @@ export default {
     return {
       model: {
         name: '',
-        icon: ''
+        avatar: ''
       }
     }
   },
@@ -46,22 +46,22 @@ export default {
         return
       }
       if (this.id) {
-        await this.$http.put(`rest/items/${this.id}`, this.model)
+        await this.$http.put(`rest/heroes/${this.id}`, this.model)
       } else {
-        await this.$http.post('rest/items', this.model)
+        await this.$http.post('rest/heroes', this.model)
       }
       this.$message({
         type: 'success',
         message: '保存成功'
       })
-      this.$router.push('/items/list')
+      this.$router.push('/heroes/list')
     },
     async queryDetail () {
-      const res = await this.$http.get(`rest/items/${this.id}`)
+      const res = await this.$http.get(`rest/heroes/${this.id}`)
       this.model = res.data
     },
     handleUploadSuccess (res) {
-      this.model.icon = res.url
+      this.model.avatar = res.url
     }
   }
 }
