@@ -23,6 +23,19 @@ const routes = [
       {
         path: 'categories/list',
         component: () => import('@/views/CategoryList')
+      },
+      {
+        path: 'items/create',
+        component: () => import('@/views/ItemEdit')
+      },
+      {
+        path: 'items/edit/:id',
+        component: () => import('@/views/ItemEdit'),
+        props: true
+      },
+      {
+        path: 'items/list',
+        component: () => import('@/views/ItemList')
       }
     ]
   }
