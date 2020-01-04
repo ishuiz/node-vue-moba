@@ -8,6 +8,11 @@
         width="240">
       </el-table-column>
       <el-table-column prop="name" label="物品名称"></el-table-column>
+      <el-table-column label="图标">
+        <template v-slot="scope">
+          <img :src="scope.row.icon" style="height: 3rem;" alt="">
+        </template>
+      </el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
