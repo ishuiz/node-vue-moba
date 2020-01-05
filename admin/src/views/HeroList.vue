@@ -8,6 +8,7 @@
         width="240">
       </el-table-column>
       <el-table-column prop="name" label="英雄名称"></el-table-column>
+      <el-table-column prop="title" label="称号"></el-table-column>
       <el-table-column label="头像">
         <template v-slot="scope">
           <img :src="scope.row.avatar" style="height: 3rem;" alt="">
