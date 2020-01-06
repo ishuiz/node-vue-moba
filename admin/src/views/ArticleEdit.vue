@@ -19,7 +19,7 @@
         <el-input v-model="model.title"></el-input>
       </el-form-item>
       <el-form-item label="详情">
-        <el-input v-model="model.body"></el-input>
+        <VueEditor style="lineHeight: 24px;" v-model="model.body"></VueEditor>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
@@ -29,8 +29,13 @@
 </template>
 
 <script>
+import { VueEditor } from 'vue2-editor'
+
 export default {
   name: 'ArticleEdit',
+  components: {
+    VueEditor
+  },
   props: {
     id: String
   },
