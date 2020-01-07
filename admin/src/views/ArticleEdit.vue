@@ -19,7 +19,12 @@
         <el-input v-model="model.title"></el-input>
       </el-form-item>
       <el-form-item label="详情">
-        <VueEditor style="lineHeight: 24px;" v-model="model.body"></VueEditor>
+        <VueEditor
+          useCustomImageHandler
+          @image-added="handleImageAdded"
+          style="lineHeight: 24px;"
+          v-model="model.body">
+        </VueEditor>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
@@ -54,6 +59,13 @@ export default {
     this.id && this.queryDetail()
   },
   methods: {
+    async handleImageAdded (file, Editor, cursorLocation, resetUploader) {
+      let formData = new FormData()
+      formData.append('file', file)
+      const res = await this.$http.post('upload', formData)
+      Editor.insertEmbed(cursorLocation, 'image', res.data.url)
+      resetUploader()
+    },
     async handleSave () {
       if (!this.model.title) {
         return
