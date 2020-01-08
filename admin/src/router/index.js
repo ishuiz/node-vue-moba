@@ -75,6 +75,19 @@ const routes = [
       {
         path: 'ads/list',
         component: () => import('@/views/AdList')
+      },
+      {
+        path: 'admin_user/create',
+        component: () => import('@/views/AdminUserEdit')
+      },
+      {
+        path: 'admin_user/edit/:id',
+        component: () => import('@/views/AdminUserEdit'),
+        props: true
+      },
+      {
+        path: 'admin_user/list',
+        component: () => import('@/views/AdminUserList')
       }
     ]
   }
