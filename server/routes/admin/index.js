@@ -1,5 +1,9 @@
 module.exports = app => {
   const express = require('express')
+  const jwt = require('jsonwebtoken')
+  const assert = require('http-assert')
+  const AdminUser = require('../../models/AdminUser')
+
   const router = express.Router({
     mergeParams: true
   })
@@ -55,15 +59,16 @@ module.exports = app => {
     }
   })
 
-  app.use('/admin/api/rest/:resource', (req, res, next) => {
-    const modelName = require('inflection').classify(req.params.resource)
-    req.Model = require(`../../models/${modelName}`)
-    next()
-  }, router)
+  // 登录校验中间件
+  const authMiddleware = require('../../middleware/auth')
+
+  const resourceMiddleware = require('../../middleware/resource')
+
+  app.use('/admin/api/rest/:resource', authMiddleware(), resourceMiddleware(), router)
 
   const multer = require('multer')
   const upload = multer({dest: __dirname + '/../../uploads'})
-  app.post('/admin/api/upload', upload.single('file'), (req, res) => {
+  app.post('/admin/api/upload', authMiddleware(), upload.single('file'), (req, res) => {
     const file = req.file
     file.url = `http://localhost:3000/uploads/${file.filename}`
     res.send(file)
@@ -71,27 +76,27 @@ module.exports = app => {
 
   app.post('/admin/api/login', async (req, res) => {
     const { username, password } = req.body
-    const AdminUser = require('../../models/AdminUser')
     const user =await AdminUser.findOne({
       username
     }).select('+password')
-    if (!user) {
-      return res.status(422).send({
-        message: '用户不存在'
-      })
-    }
+
+    assert(user, 422, '用户不存在')
+
     const isValid = require('bcrypt').compareSync(password, user.password)
-    if (!isValid) {
-      return res.status(422).send({
-        message: '密码错误'
-      })
-    }
+    assert(isValid, 422, '密码错误')
+
     // 返回 token
-    const jwt = require('jsonwebtoken')
     const token =jwt.sign({
       id: user._id
     }, app.get('secret'))
 
     res.send({token})
+  })
+
+  // 错误处理中间件
+  app.use((err, req, res, next) => {
+    res.status(err.statusCode).send({
+      message: err.message
+    })
   })
 }
