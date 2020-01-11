@@ -13,6 +13,22 @@ Object.defineProperty(Vue.prototype, '$http', {
   value: http
 })
 
+Vue.mixin({
+  computed: {
+    uploadUrl () {
+      return http.defaults.baseURL + '/upload'
+    }
+  },
+  methods: {
+    getAuthHeaders () {
+      const token = JSON.parse(sessionStorage.getItem('token'))
+      return {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  }
+})
+
 new Vue({
   router,
   store,
