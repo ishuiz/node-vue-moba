@@ -1,0 +1,6 @@
+.btn {
+  border: none;
+  border-radius: .04rem /* 2/50 */;
+  font-size: map-get($font-sizes, 'sm') * $font-size-base;
+  padding: .1rem;
+}
