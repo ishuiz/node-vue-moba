@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="topbar bg-black py-2 px-3 d-flex ai-center">
-      <router-link class="logo_img" to="/"></router-link>
+      <router-link class="sprite sprite-logo" to="/"></router-link>
       <div class="px-2 flex-1">
         <p class="text-white">王者荣耀</p>
         <p class="text-gray-600 fs-xxs">团队成就更多</p>
@@ -32,15 +32,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '../styles/variables';
-
-.logo_img {
-  display: block;
-  width: 0.6rem;
-  height: 0.6rem;
-  background-image: url('../assets/images/bg/index.png');
-  background-size: 7.5rem;
-  background-position: 0 -6.16rem;
-}
 
 .nav-item {
   border-bottom: .06rem /* 3/50 */ solid transparent;

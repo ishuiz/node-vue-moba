@@ -1,0 +1,24 @@
+.sprite {
+  display: inline-block;
+  background-image: url('../assets/images/bg/index.png');
+  background-repeat: no-repeat;
+  background-size: 7.5rem /* 375/50 */;
+}
+
+.sprite-logo {
+  width: .6rem /* 30/50 */;
+  height: .6rem /* 30/50 */;
+  background-position: 0 -6.16rem /* 308/50 */;
+}
+
+.sprite-news {
+  width: .46rem /* 23/50 */;
+  height: .4rem /* 20/50 */;
+  background-position: -4.48rem /* 224/50 */ -1.34rem /* 67/50 */;
+}
+
+.sprite-arrow {
+  width: .2rem /* 10/50 */;
+  height: .2rem /* 10/50 */;
+  background-position: -2.82rem /* 141/50 */ -4.64rem /* 232/50 */;
+}

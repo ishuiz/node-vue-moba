@@ -15,6 +15,8 @@ $colors: (
   'black': #000 
 );
 
+$border-color: map-get($map: $colors, $key: 'gray-300');
+
 // font size
 $font-size-base: 1rem;
 $font-sizes: (

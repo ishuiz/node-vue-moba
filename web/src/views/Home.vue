@@ -12,6 +12,25 @@
       </swiper-slide>
       <div class="swiper-pagination pagination-home pr-2 text-right" slot="pagination"></div>
     </swiper>
+    <!-- end of swiper -->
+
+    <div class="nav-icons text-center text-gray-900 fs-xs mt-2">
+      <div class="d-flex flex-wrap bg-white pt-3">
+        <div
+          class="nav-item mb-3 d-flex flex-column ai-center"
+          v-for="n in 10"
+          :key="n">
+          <i class="sprite sprite-news"></i>
+          <span class="py-1">爆料站</span>
+        </div>
+      </div>
+      <div class="bg-gray-100 py-1">
+        <i class="sprite sprite-arrow mr-1"></i>
+        <span>收起</span>
+      </div>
+    </div>
+    <!-- end of nav icons -->
+
   </div>
 </template>
 
@@ -42,6 +61,19 @@ export default {
   }
   ::v-deep .swiper-pagination-bullet-active {
     background: map-get($map: $colors, $key: 'info');
+  }
+}
+
+.nav-icons {
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+  .nav-item {
+    width: 25%;
+    border-right: 1px solid $border-color;
+
+    &:nth-child(4n) {
+      border-right: none;
+    }
   }
 }
 </style>
