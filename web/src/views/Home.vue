@@ -30,14 +30,49 @@
       </div>
     </div>
     <!-- end of nav icons -->
-
+    <TheCard title="新闻资讯" icon="category">
+      <div class="nav jc-between">
+        <div class="nav-item is-active">
+          <span class="nav-link">热门</span>
+        </div>
+        <div class="nav-item">
+          <span class="nav-link">新闻</span>
+        </div>
+        <div class="nav-item">
+          <span class="nav-link">公告</span>
+        </div>
+        <div class="nav-item">
+          <span class="nav-link">活动</span>
+        </div>
+        <div class="nav-item">
+          <span class="nav-link">赛事</span>
+        </div>
+      </div>
+      <swiper class="mt-2">
+        <swiper-slide v-for="n in 5" :key="n">
+          <div
+            class="py-1"
+            v-for="m in 5"
+            :key="m">
+            <span class="category">[新闻]</span>
+            <span class="split">|</span>
+            <span class="title">赛季奖励领取调整说明及未领取奖励补发公告</span>
+            <span class="time">01/09</span>
+          </div>
+        </swiper-slide>
+      </swiper>
+    </TheCard>
   </div>
 </template>
 
 <script>
+import TheCard from '../components/Card'
 
 export default {
   name: 'Home',
+  components: {
+    TheCard
+  },
   data () {
     return {
       swiperOption: {

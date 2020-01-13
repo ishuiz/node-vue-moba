@@ -9,7 +9,7 @@
       <a class="btn bg-primary text-gray-900">立即下载</a>
     </div>
     <div class="bg-primary py-2">
-      <div class="nav d-flex jc-around">
+      <div class="nav nav-inverse">
         <div class="nav-item is-active">
           <router-link class="nav-link text-white" to="/">首页</router-link>
         </div>
@@ -29,14 +29,3 @@
 export default {
 }
 </script>
-
-<style lang="scss" scoped>
-@import '../styles/variables';
-
-.nav-item {
-  border-bottom: .06rem /* 3/50 */ solid transparent;
-  &.is-active {
-    border-color: map-get($map: $colors, $key: 'white');
-  }
-}
-</style>

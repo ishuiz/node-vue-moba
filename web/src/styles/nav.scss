@@ -1,0 +1,17 @@
+.nav {
+  display: flex;
+  justify-content: space-around;
+  .nav-item {
+    border-bottom: .06rem /* 3/50 */ solid transparent;
+    &.is-active {
+      color: map-get($map: $colors, $key: 'primary');
+      border-color: inherit;
+    }
+  }
+
+  &.nav-inverse {
+    .nav-item {
+      color: map-get($map: $colors, $key: 'white');
+    }
+  }
+}
