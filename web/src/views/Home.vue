@@ -30,48 +30,29 @@
       </div>
     </div>
     <!-- end of nav icons -->
-    <TheCard title="新闻资讯" icon="category">
-      <div class="nav jc-between">
-        <div class="nav-item is-active">
-          <span class="nav-link">热门</span>
+    <ListCard title="新闻资讯" icon="category" :categories="newsCats">
+      <template v-slot:items="{category}">
+        <div
+          class="py-1"
+          v-for="(item, index) in category.list"
+          :key="index">
+          <span class="category">{{item.categoryName}}</span>
+          <span class="split">|</span>
+          <span class="title">{{item.title}}</span>
+          <span class="time">{{item.date}}</span>
         </div>
-        <div class="nav-item">
-          <span class="nav-link">新闻</span>
-        </div>
-        <div class="nav-item">
-          <span class="nav-link">公告</span>
-        </div>
-        <div class="nav-item">
-          <span class="nav-link">活动</span>
-        </div>
-        <div class="nav-item">
-          <span class="nav-link">赛事</span>
-        </div>
-      </div>
-      <swiper class="mt-2">
-        <swiper-slide v-for="n in 5" :key="n">
-          <div
-            class="py-1"
-            v-for="m in 5"
-            :key="m">
-            <span class="category">[新闻]</span>
-            <span class="split">|</span>
-            <span class="title">赛季奖励领取调整说明及未领取奖励补发公告</span>
-            <span class="time">01/09</span>
-          </div>
-        </swiper-slide>
-      </swiper>
-    </TheCard>
+      </template>
+    </ListCard>
   </div>
 </template>
 
 <script>
-import TheCard from '../components/Card'
+import ListCard from '../components/ListCard'
 
 export default {
   name: 'Home',
   components: {
-    TheCard
+    ListCard
   },
   data () {
     return {
@@ -79,7 +60,49 @@ export default {
         pagination: {
           el: '.pagination-home'
         }
-      }
+      },
+      newsCats: [
+        {
+          name: '热门',
+          list: new Array(5).fill(true).map(() => ({
+            categoryName: '公告',
+            title: '赛季奖励领取调整说明及未领取奖励补发公告',
+            date: '06/01'
+          }))
+        },
+        {
+          name: '新闻',
+          list: new Array(5).fill(true).map(() => ({
+            categoryName: '公告',
+            title: '赛季奖励领取调整说明及未领取奖励补发公告',
+            date: '06/01'
+          }))
+        },
+        {
+          name: '公告',
+          list: new Array(5).fill(true).map(() => ({
+            categoryName: '公告',
+            title: '赛季奖励领取调整说明及未领取奖励补发公告',
+            date: '06/01'
+          }))
+        },
+        {
+          name: '活动',
+          list: new Array(5).fill(true).map(() => ({
+            categoryName: '公告',
+            title: '赛季奖励领取调整说明及未领取奖励补发公告',
+            date: '06/01'
+          }))
+        },
+        {
+          name: '赛事',
+          list: new Array(5).fill(true).map(() => ({
+            categoryName: '公告',
+            title: '赛季奖励领取调整说明及未领取奖励补发公告',
+            date: '06/01'
+          }))
+        }
+      ]
     }
   }
 }
