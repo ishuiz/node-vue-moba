@@ -87,3 +87,9 @@
 .h-100 {
   height: 100% !important;
 }
+
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

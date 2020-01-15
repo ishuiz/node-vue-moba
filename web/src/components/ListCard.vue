@@ -13,7 +13,10 @@
           <span class="nav-link">{{category.name}}</span>
         </div>
       </div>
-      <swiper class="mt-2">
+      <swiper
+        ref="list"
+        class="mt-2"
+        @slide-change="handleSlideChange">
         <swiper-slide
           v-for="(category, index) in categories"
           :key="index">
@@ -53,7 +56,10 @@ export default {
   },
   methods: {
     handleClickNav (index) {
-      this.active = index
+      this.$refs.list.swiper.slideTo(index)
+    },
+    handleSlideChange () {
+      this.active = this.$refs.list.swiper.realIndex
     }
   }
 }

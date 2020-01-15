@@ -33,13 +33,13 @@
     <ListCard title="新闻资讯" icon="category" :categories="newsCats">
       <template v-slot:items="{category}">
         <div
-          class="py-1"
-          v-for="(item, index) in category.list"
+          class="py-1 d-flex"
+          v-for="(item, index) in category.newsList"
           :key="index">
-          <span class="category">{{item.categoryName}}</span>
-          <span class="split">|</span>
-          <span class="title">{{item.title}}</span>
-          <span class="time">{{item.date}}</span>
+          <span class="category text-info">{{item.categoryName}}</span>
+          <span class="split px-2">|</span>
+          <span class="title flex-1 pr-2 text-ellipsis">{{item.title}}</span>
+          <span class="time text-gray-600">{{item.createdAt | date}}</span>
         </div>
       </template>
     </ListCard>
@@ -48,11 +48,17 @@
 
 <script>
 import ListCard from '../components/ListCard'
+import dayjs from 'dayjs'
 
 export default {
   name: 'Home',
   components: {
     ListCard
+  },
+  filters: {
+    date (val) {
+      return dayjs(val).format('MM/DD')
+    }
   },
   data () {
     return {
@@ -61,49 +67,17 @@ export default {
           el: '.pagination-home'
         }
       },
-      newsCats: [
-        {
-          name: '热门',
-          list: new Array(5).fill(true).map(() => ({
-            categoryName: '公告',
-            title: '赛季奖励领取调整说明及未领取奖励补发公告',
-            date: '06/01'
-          }))
-        },
-        {
-          name: '新闻',
-          list: new Array(5).fill(true).map(() => ({
-            categoryName: '公告',
-            title: '赛季奖励领取调整说明及未领取奖励补发公告',
-            date: '06/01'
-          }))
-        },
-        {
-          name: '公告',
-          list: new Array(5).fill(true).map(() => ({
-            categoryName: '公告',
-            title: '赛季奖励领取调整说明及未领取奖励补发公告',
-            date: '06/01'
-          }))
-        },
-        {
-          name: '活动',
-          list: new Array(5).fill(true).map(() => ({
-            categoryName: '公告',
-            title: '赛季奖励领取调整说明及未领取奖励补发公告',
-            date: '06/01'
-          }))
-        },
-        {
-          name: '赛事',
-          list: new Array(5).fill(true).map(() => ({
-            categoryName: '公告',
-            title: '赛季奖励领取调整说明及未领取奖励补发公告',
-            date: '06/01'
-          }))
-        }
-      ]
+      newsCats: []
     }
+  },
+  methods: {
+    async fetchNewsCats () {
+      const res = await this.$http.get('news/list')
+      this.newsCats = res.data
+    }
+  },
+  created () {
+    this.fetchNewsCats()
   }
 }
 </script>
