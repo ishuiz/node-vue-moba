@@ -43,6 +43,22 @@
         </div>
       </template>
     </ListCard>
+
+    <ListCard title="英雄列表" icon="usercenter" :categories="heroCats">
+      <template v-slot:items="{category}">
+        <div
+          class="d-flex flex-wrap"
+          style="margin: 0 -0.075rem;">
+          <div
+            class="p-1 hero-item text-center"
+            v-for="(hero, index) in category.heroList"
+            :key="index">
+            <img class="w-100" :src="hero.avatar" :alt="hero.name">
+            <p>{{hero.name}}</p>
+          </div>
+        </div>
+      </template>
+    </ListCard>
   </div>
 </template>
 
@@ -67,17 +83,23 @@ export default {
           el: '.pagination-home'
         }
       },
-      newsCats: []
+      newsCats: [],
+      heroCats: []
     }
   },
   methods: {
     async fetchNewsCats () {
       const res = await this.$http.get('news/list')
       this.newsCats = res.data
+    },
+    async fetchHeroCats () {
+      const res = await this.$http.get('heroes/list')
+      this.heroCats = res.data
     }
   },
   created () {
     this.fetchNewsCats()
+    this.fetchHeroCats()
   }
 }
 </script>
@@ -107,5 +129,9 @@ export default {
       border-right: none;
     }
   }
+}
+
+.hero-item {
+  width: 20%;
 }
 </style>

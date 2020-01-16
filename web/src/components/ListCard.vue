@@ -15,6 +15,7 @@
       </div>
       <swiper
         ref="list"
+        :options="{autoHeight: true}"
         class="mt-2"
         @slide-change="handleSlideChange">
         <swiper-slide

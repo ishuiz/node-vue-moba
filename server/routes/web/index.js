@@ -129,5 +129,43 @@ module.exports = app => {
     res.send(await Hero.find())
   })
 
+  router.get('/heroes/list', async (req, res) => {
+    const parent = await Category.findOne({
+      name: '英雄分类'
+    })
+    const cats = await Category.aggregate([
+      // 过滤
+      { $match: { parent: parent._id } },
+      // 关联查询
+      {
+        $lookup: {
+          from: 'heroes',
+          localField: '_id',
+          foreignField: 'categories',
+          as: 'heroList'
+        }
+      }
+    ])
+    const subCats = cats.map(v => v._id)
+    cats.unshift({
+      name: '热门',
+      heroList: await Hero.find()
+        .where({
+          categories: { $in: subCats }
+        })
+        .limit(10)
+        .lean()
+    })
+    // cats.map(cat => {
+    //   cat.newsList.map(news => {
+    //     news.categoryName =
+    //       cat.name === '热门' ? news.categories[0].name : cat.name
+    //     return news
+    //   })
+    //   return cat
+    // })
+    res.send(cats)
+  })
+
   app.use('/web/api', router)
 }
