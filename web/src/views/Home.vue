@@ -32,15 +32,17 @@
     <!-- end of nav icons -->
     <ListCard title="新闻资讯" icon="category" :categories="newsCats">
       <template v-slot:items="{category}">
-        <div
+        <router-link
+          tag="div"
           class="py-1 d-flex"
           v-for="(item, index) in category.newsList"
-          :key="index">
+          :key="index"
+          :to="`/articles/${item._id}`">
           <span class="category text-info">{{item.categoryName}}</span>
           <span class="split px-2">|</span>
           <span class="title flex-1 pr-2 text-ellipsis">{{item.title}}</span>
           <span class="time text-gray-600">{{item.createdAt | date}}</span>
-        </div>
+        </router-link>
       </template>
     </ListCard>
 

@@ -93,3 +93,10 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+// border
+@each $dir in (top, right, bottom, left) {
+  .border-#{$dir} {
+    border-#{$dir}: 1px solid $border-color;
+  }
+}
