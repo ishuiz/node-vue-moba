@@ -2,7 +2,7 @@
   <div class="hero">
     <h1>{{ id ? "编辑" : "新建" }}英雄</h1>
     <el-form label-width="120px" @submit.native.prevent="handleSave">
-      <el-tabs value="skills" type="border-card">
+      <el-tabs type="border-card">
         <el-tab-pane label="基础信息">
           <el-form-item label="名称">
             <el-input v-model="model.name"></el-input>
@@ -19,6 +19,18 @@
               :headers="getAuthHeaders()"
             >
               <img v-if="model.avatar" :src="model.avatar" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="Banner">
+            <el-upload
+              class="avatar-uploader"
+              :action="uploadUrl"
+              :show-file-list="false"
+              :on-success="handleUploadBannerSuccess"
+              :headers="getAuthHeaders()"
+            >
+              <img v-if="model.banner" :src="model.banner" class="avatar" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -95,7 +107,7 @@
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane name="skills" label="技能">
-          <el-button size="small" @click="handleAddSkills">
+          <el-button size="small" @click="handleAddSkill">
             <i class="el-icon-plus"></i>添加技能
           </el-button>
           <el-row type="flex" style="flexWrap: wrap; marginTop: 20px;">
@@ -115,6 +127,12 @@
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
               </el-form-item>
+              <el-form-item label="冷却值">
+                <el-input v-model="item.delay"></el-input>
+              </el-form-item>
+              <el-form-item label="消耗">
+                <el-input v-model="item.cost"></el-input>
+              </el-form-item>
               <el-form-item label="描述">
                 <el-input type="textarea" v-model="item.description"></el-input>
               </el-form-item>
@@ -125,7 +143,35 @@
                 <el-button
                   type="danger"
                   size="small"
-                  @click="handleDeleteSkills(index)">删除</el-button>
+                  @click="handleDeleteSkill(index)">删除</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane name="partners" label="最佳搭档">
+          <el-button size="small" @click="handleAddPartner">
+            <i class="el-icon-plus"></i>添加搭档
+          </el-button>
+          <el-row type="flex" style="flexWrap: wrap; marginTop: 20px;">
+            <el-col :md="12" v-for="(item, index) in model.partners" :key="index">
+              <el-form-item label="名称">
+                <el-select filterable v-model="item.hero">
+                  <el-option
+                    v-for="item in heroes"
+                    :key="item._id"
+                    :label="item.name"
+                    :value="item._id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="描述">
+                <el-input type="textarea" v-model="item.description"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button
+                  type="danger"
+                  size="small"
+                  @click="handleDeletePartner(index)">删除</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -151,6 +197,7 @@ export default {
         title: '',
         categories: [],
         avatar: '',
+        banner: '',
         scores: {
           difficult: 0,
           skills: 0,
@@ -162,15 +209,18 @@ export default {
         usageTips: '',
         battleTips: '',
         teamTips: '',
-        skills: []
+        skills: [],
+        partners: []
       },
       categories: [],
-      items: []
+      items: [],
+      heroes: []
     }
   },
   created () {
     this.queryCatogories()
     this.queryItems()
+    this.queryHeroes()
     this.id && this.queryDetail()
   },
   methods: {
@@ -181,6 +231,10 @@ export default {
     async queryItems () {
       const res = await this.$http.get('rest/items')
       this.items = res.data
+    },
+    async queryHeroes () {
+      const res = await this.$http.get('rest/heroes')
+      this.heroes = res.data
     },
     async handleSave () {
       if (!this.model.name) {
@@ -207,14 +261,27 @@ export default {
     handleUploadAvatarSuccess (res) {
       this.model.avatar = res.url
     },
-    handleAddSkills () {
+    handleUploadBannerSuccess (res) {
+      this.model.banner = res.url
+    },
+    handleAddSkill () {
       this.model.skills.push({})
     },
-    handleDeleteSkills (index) {
+    handleDeleteSkill (index) {
       this.$confirm(`确定删除该技能？`, {
         type: 'warning'
       }).then(() => {
         this.model.skills.splice(index, 1)
+      }).catch(() => {})
+    },
+    handleAddPartner () {
+      this.model.partners.push({})
+    },
+    handleDeletePartner (index) {
+      this.$confirm(`确定删除该搭档？`, {
+        type: 'warning'
+      }).then(() => {
+        this.model.partners.splice(index, 1)
       }).catch(() => {})
     }
   }

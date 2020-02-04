@@ -23,8 +23,15 @@ body {
   word-wrap: break-word;
 }
 
-p {
+p,
+ul,
+ol {
   margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
 }
 
 a {
@@ -34,4 +41,8 @@ a {
 
 img {
   max-width: 100%;
+}
+
+ul,ol {
+  list-style: none;
 }

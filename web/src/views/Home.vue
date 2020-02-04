@@ -51,13 +51,15 @@
         <div
           class="d-flex flex-wrap"
           style="margin: 0 -0.075rem;">
-          <div
+          <router-link
+            tag="div"
             class="p-1 hero-item text-center"
             v-for="(hero, index) in category.heroList"
-            :key="index">
+            :key="index"
+            :to="`/heroes/${hero._id}`">
             <img class="w-100" :src="hero.avatar" :alt="hero.name">
             <p>{{hero.name}}</p>
-          </div>
+          </router-link>
         </div>
       </template>
     </ListCard>
